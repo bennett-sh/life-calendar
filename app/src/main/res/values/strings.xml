@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Life Calendar</string>
+    <string name="config_title">Settings</string>
+    <string name="title">Your Life</string>
+</resources>
