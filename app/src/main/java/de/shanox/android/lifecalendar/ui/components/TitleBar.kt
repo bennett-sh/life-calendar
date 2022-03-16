@@ -48,6 +48,6 @@ fun TitleBar() {
                 )
             }
         },
-        modifier = Modifier.padding(top = 25.dp)
+        modifier = Modifier.padding(top = 25.dp, start = 10.dp, end = 10.dp)
     )
 }

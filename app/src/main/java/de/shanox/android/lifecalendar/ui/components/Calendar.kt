@@ -24,11 +24,24 @@ import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.SizeMode
 import java.time.temporal.ChronoUnit
 
+fun getColorByAge(
+    age: Int
+): Color {
+    return (when(true) {
+        age < 14 -> Color(6822077) // Purple
+        age < 20 -> Color.Yellow
+        age < 31 -> Color.Green
+        age < 66 -> Color.Blue
+        else -> Color.Red
+    }).copy(alpha = 0.2f)
+}
+
 @Composable
 fun Calendar(
     expectedAge: Int = 80,
     birthday: LocalDate = LocalDate.of(2000, 1, 1),
-    filledColor: Color = MaterialTheme.colorScheme.primary
+    filledColor: Color = MaterialTheme.colorScheme.primary,
+    colored: Boolean = false
 ) {
 
     val filledWeeks = floor(ChronoUnit.WEEKS.between(birthday, LocalDate.now()).toDouble())
@@ -46,14 +59,26 @@ fun Calendar(
         ) {
             (1..expectedWeeks).forEach {
                 Surface(
-                    color = if(it > filledWeeks) Color.Gray else filledColor,
+                    color = if(colored) getColorByAge(it / 52) else Color.Transparent,
                     shape = RoundedCornerShape(5.dp),
                     modifier = Modifier
                         .padding(1.dp)
-                        .size(5.dp),
+                        .size(5.dp)
+                ) {
+                    Surface(
+                        color = if(it > filledWeeks)
+                                    if(colored)
+                                        Color.Transparent
+                                    else Color.Gray.copy(alpha = 0.2f)
+                                else filledColor,
+                        shape = RoundedCornerShape(5.dp),
+                        modifier = Modifier
+                            .padding(0.2.dp)
+                            .size(5.dp),
 
-                    content = {}
-                )
+                        content = {}
+                    )
+                }
             }
         }
     }
