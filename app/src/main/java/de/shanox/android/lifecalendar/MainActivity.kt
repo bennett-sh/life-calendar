@@ -4,18 +4,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.*
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import de.shanox.android.lifecalendar.ui.components.TitleBar
 import de.shanox.android.lifecalendar.ui.components.Calendar
 import de.shanox.android.lifecalendar.ui.components.ConfigDialog
 import de.shanox.android.lifecalendar.ui.theme.LifeCalendarTheme
 import de.shanox.android.lifecalendar.utils.PreferenceManager
+import androidx.compose.foundation.layout.Arrangement
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,22 +36,20 @@ fun App() {
     val prefMgr = PreferenceManager(LocalContext.current)
 
     LifeCalendarTheme {
-        Scaffold {
+        Scaffold(
+            topBar = { TitleBar() }
+        ) {
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
-
-                Text(
-                    text = stringResource(id = R.string.title),
-                    fontFamily = MaterialTheme.typography.displayLarge.fontFamily,
-                    fontSize = MaterialTheme.typography.displayLarge.fontSize,
-                    fontWeight = MaterialTheme.typography.displayLarge.fontWeight,
-                    modifier = Modifier.padding(start = 30.dp, top = 30.dp)
-                )
-
-                Calendar()
-
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Calendar()
+                }
             }
         }
     }
