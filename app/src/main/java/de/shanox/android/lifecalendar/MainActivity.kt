@@ -1,7 +1,9 @@
 package de.shanox.android.lifecalendar
 
+import android.util.Log
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import java.time.LocalDate
+import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.verticalScroll
@@ -18,11 +20,39 @@ import de.shanox.android.lifecalendar.ui.components.TitleBar
 import de.shanox.android.lifecalendar.ui.components.Calendar
 import de.shanox.android.lifecalendar.ui.components.ConfigDialog
 import de.shanox.android.lifecalendar.ui.theme.LifeCalendarTheme
+import de.shanox.android.lifecalendar.utils.ConfigDialogManager
 import de.shanox.android.lifecalendar.utils.PreferenceManager
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.MutableState
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
+
+    companion object {
+        public var activity: AppCompatActivity? = null
+
+        public var colored = mutableStateOf(false)
+        public var expectedAge = mutableStateOf(80)
+        public var birthday: MutableState<LocalDate?> = mutableStateOf(null)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        MainActivity.activity = this
+
+        val prefMgr = PreferenceManager(this)
+        val exAge = prefMgr.getPreference("expectedAge")
+        val colored = prefMgr.getPreference("colored")
+
+        if(exAge is Int) {
+            MainActivity.expectedAge.value = exAge
+        }
+
+        if(colored is Boolean) {
+            MainActivity.colored.value = colored
+        }
+
+        MainActivity.birthday.value = prefMgr.getLocalDate("birthday") ?: LocalDate.of(2000, 1, 1)
+
         super.onCreate(savedInstanceState)
         setContent {
             App()
@@ -35,6 +65,12 @@ class MainActivity : ComponentActivity() {
 fun App() {
     val prefMgr = PreferenceManager(LocalContext.current)
 
+    Log.i("ABC", "RERENDER")
+
+    if(prefMgr.getPreference("birthday") == null) {
+        ConfigDialogManager.getInstance().isVisible.value = true
+    }
+
     LifeCalendarTheme {
         Scaffold(
             topBar = { TitleBar() }
@@ -43,12 +79,18 @@ fun App() {
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
+                ConfigDialog()
+
                 Column(
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .verticalScroll(rememberScrollState())
                 ) {
-                    Calendar()
+                    Calendar(
+                        expectedAge = MainActivity.expectedAge.value as Int ?: 81,
+                        birthday = MainActivity.birthday.value as LocalDate ?: LocalDate.of(2000, 1, 1),
+                        colored = MainActivity.colored.value as Boolean ?: false
+                    )
                 }
             }
         }

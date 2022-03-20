@@ -2,4 +2,9 @@
     <string name="app_name">Life Calendar</string>
     <string name="config_title">Settings</string>
     <string name="title">Your Life</string>
+    <string name="date_picker">Date Picker</string>
+    <string name="birthday">Your Birthday</string>
+    <string name="expected_age">Expected Age</string>
+    <string name="save">Save</string>
+    <string name="colored">Colored Life Sections</string>
 </resources>

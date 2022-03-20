@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.LifeCalendar" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.LifeCalendar.Main" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="materialCalendarStyle">@style/Widget.MaterialComponents.MaterialCalendar</item>
+        <item name="materialCalendarFullscreenTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen</item>
+        <item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar</item>
+    </style>
+
+    <style name="Theme.LifeCalendar.ThemeMode" parent="Theme.LifeCalendar.Main">
+    </style>
+
+    <style name="Theme.LifeCalendar" parent="Theme.LifeCalendar.ThemeMode">
+        <item name="android:datePickerDialogTheme">@style/DatePickerTheme</item>
+    </style>
+
+    <style name="DatePickerTheme" parent="android:Theme.Material.Dialog">
+        <item name="android:datePickerStyle">@style/DatePickerStyle</item>
+    </style>
+
+    <style name="DatePickerStyle" parent="@android:style/Widget.Material.DatePicker">
+        <item name="android:headerBackground">#006e10</item>
+    </style>
+
 </resources>

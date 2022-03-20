@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.foundation.layout.padding
+import de.shanox.android.lifecalendar.ui.components.Title
+import de.shanox.android.lifecalendar.utils.ConfigDialogManager
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.MaterialTheme
@@ -25,19 +27,12 @@ import androidx.compose.ui.unit.dp
 fun TitleBar() {
     SmallTopAppBar(
         title = {
-            Text(
-                text = stringResource(id = R.string.title),
-                fontFamily = MaterialTheme.typography.displayLarge.fontFamily,
-                fontSize = MaterialTheme.typography.displayLarge.fontSize,
-                fontWeight = MaterialTheme.typography.displayLarge.fontWeight,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(top = 7.5.dp)
-            )
+            Title(text = stringResource(id = R.string.title))
         },
         actions = {
             IconButton(
                 onClick = {
-                    // TODO: Config Page
+                    ConfigDialogManager.getInstance().isVisible.value = true
                 }
             ) {
                 Icon(

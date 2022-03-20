@@ -3,4 +3,9 @@
     <string name="app_name">Lebenskalender</string>
     <string name="config_title">Einstellungen</string>
     <string name="title">Dein Leben</string>
+    <string name="date_picker">Datum</string>
+    <string name="birthday">Dein Geburtstag</string>
+    <string name="expected_age">Erwartetes Alter</string>
+    <string name="save">Speichern</string>
+    <string name="colored">Gefärbte Lebensabschnitte</string>
 </resources>
