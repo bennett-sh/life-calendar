@@ -6,6 +6,7 @@ plugins {
 android {
     namespace 'de.shanox.android.lifecalendar'
     compileSdk 32
+    compileSdkPreview 'Tiramisu'
 
     defaultConfig {
         applicationId "de.shanox.android.lifecalendar"

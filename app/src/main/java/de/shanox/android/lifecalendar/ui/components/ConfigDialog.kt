@@ -16,13 +16,17 @@ import androidx.compose.foundation.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 
+import androidx.compose.animation.core.*
+
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.*
 
 import de.shanox.android.lifecalendar.utils.ConfigDialogManager
@@ -44,8 +48,10 @@ fun Save(
     MainActivity.birthday.value = birthday
 
     if(expectedAge != null) {
-        prefMgr.storePreference("expectedAge", expectedAge)
-        MainActivity.expectedAge.value = expectedAge
+        val eA = if(expectedAge > 150) 150 else if(expectedAge < 1) 1 else expectedAge
+
+        prefMgr.storePreference("expectedAge", eA)
+        MainActivity.expectedAge.value = eA
     }
 
     if(colored != null) {
@@ -60,17 +66,24 @@ fun Save(
 fun ConfigDialog() {
     val prefMgr = PreferenceManager(LocalContext.current)
 
-    var coloredPref by remember { mutableStateOf(prefMgr.getPreference("colored")) }
-
     var datePicked : LocalDate by remember { mutableStateOf(prefMgr.getLocalDate("birthday") ?: LocalDate.now()) }
     var expectedAge: String by remember { mutableStateOf((prefMgr.getPreference("expectedAge") ?: 81).toString())}
-    var colored: Boolean by remember { mutableStateOf(false) }
-
-    if(coloredPref != null) colored = coloredPref as Boolean
+    var colored by remember { mutableStateOf((prefMgr.getPreference("colored") ?: false as Boolean)) }
 
     val updatedDate = { date: LocalDate? ->
         datePicked = date ?: LocalDate.of(2000, 1, 1)
     }
+
+    var isSaving by remember { mutableStateOf(false) }
+    val savingTransition = rememberInfiniteTransition()
+    val savingAlpha by savingTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 0f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1000, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
 
     AnimatedVisibility(visible = ConfigDialogManager.getInstance().isVisible.value) {
         Dialog(
@@ -163,7 +176,7 @@ fun ConfigDialog() {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Checkbox(
-                                checked = colored,
+                                checked = colored as Boolean,
                                 onCheckedChange = {
                                     colored = it
                                 }
@@ -180,17 +193,21 @@ fun ConfigDialog() {
                         Spacer(Modifier.height(50.dp))
 
                         Button({
+                            isSaving = true
                             Save(
                                 datePicked,
                                 expectedAge.toString().toInt(),
-                                colored,
+                                colored as Boolean,
                                 prefMgr
                             )
 
                             ConfigDialogManager.getInstance().isVisible.value = false
+                            isSaving = false
                         }) {
                             Row {
-                                Text(stringResource(R.string.save))
+                                if(isSaving) {
+                                    Text(stringResource(R.string.saving), Modifier.graphicsLayer(alpha = savingAlpha))
+                                } else Text(stringResource(R.string.save))
                             }
                         }
 

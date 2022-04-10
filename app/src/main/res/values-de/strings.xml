@@ -8,4 +8,5 @@
     <string name="expected_age">Erwartetes Alter</string>
     <string name="save">Speichern</string>
     <string name="colored">Gefärbte Lebensabschnitte</string>
+    <string name="saving">Speichert</string>
 </resources>
