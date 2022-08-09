@@ -13,16 +13,13 @@ import androidx.compose.foundation.layout.padding
 import de.shanox.android.lifecalendar.ui.components.Title
 import de.shanox.android.lifecalendar.utils.ConfigDialogManager
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.SmallTopAppBar
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Text
-import androidx.compose.material3.Icon
+import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TitleBar() {
     SmallTopAppBar(
