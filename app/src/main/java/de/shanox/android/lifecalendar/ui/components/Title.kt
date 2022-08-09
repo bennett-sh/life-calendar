@@ -14,9 +14,9 @@ import androidx.compose.ui.unit.dp
 fun Title(text: String) {
     Text(
         text = text,
-        fontFamily = MaterialTheme.typography.displayLarge.fontFamily,
-        fontSize = MaterialTheme.typography.displayLarge.fontSize,
-        fontWeight = MaterialTheme.typography.displayLarge.fontWeight,
+        fontFamily = MaterialTheme.typography.displayMedium.fontFamily,
+        fontSize = MaterialTheme.typography.displayMedium.fontSize,
+        fontWeight = MaterialTheme.typography.displayMedium.fontWeight,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = Modifier.padding(top = 7.5.dp)
     )

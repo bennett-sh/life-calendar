@@ -1,5 +1,6 @@
 package de.shanox.android.lifecalendar.ui.components
 
+import android.annotation.SuppressLint
 import android.util.Log
 import java.time.LocalDate
 import java.time.format.FormatStyle
@@ -61,6 +62,7 @@ fun Save(
 
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ConfigDialog() {
@@ -118,7 +120,7 @@ fun ConfigDialog() {
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(25.dp)
+                        .padding(start = 25.dp, top = 110.dp)
                 ) {
                     Column {
 
@@ -170,7 +172,7 @@ fun ConfigDialog() {
                                 .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(50.dp))
                         )
 
-                        Spacer(Modifier.height(50.dp))
+                        Spacer(Modifier.height(30.dp))
 
                         Row(
                             verticalAlignment = Alignment.CenterVertically
@@ -190,7 +192,7 @@ fun ConfigDialog() {
                             )
                         }
 
-                        Spacer(Modifier.height(50.dp))
+                        Spacer(Modifier.height(20.dp))
 
                         Button({
                             isSaving = true
